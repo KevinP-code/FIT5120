@@ -1,0 +1,22 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - pip install -r dependencies.txt
+    build:
+      commands:
+        - echo "Build phase completed"
+  artifacts:
+    baseDirectory: /
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - venv/**/*
+
+backend:
+  phases:
+    build:
+      commands:
+        - python application.py
