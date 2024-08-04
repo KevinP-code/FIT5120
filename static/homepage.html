@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Homepage</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .wrapper {
+            margin: 16px;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 400px; /* Set the height you want for the slider */
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .slide-wrapper {
+            display: flex;
+            transition: transform 1s ease-in-out; /* Smooth sliding effect */
+        }
+
+        .slide {
+            min-width: 100%; /* Each slide takes up 100% of the container width */
+            height: 100%;
+            position: relative;
+        }
+
+        .slide img {
+            width: 100%;
+            object-fit: cover; /* Ensures the image covers the container without distortion */
+        }
+
+        .slider-text {
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 10; /* Ensures text is above the slides */
+            width: 100%;
+        }
+
+        .slider-heading {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .slider-subheading {
+            font-size: 18px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .grid-item {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: fadeInUp 1s ease-in-out forwards;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+
+        .grid-item:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .grid-item p {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Hover effect */
+        .grid-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn {
+            background-color: #d3d3d3;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #b0b0b0;
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="slider-container">
+            <div class="slide-wrapper">
+                <div class="slide">
+                    <img src="/static/images/cover_image.jpeg" alt="Cover Image">
+                </div>
+                <div class="slide">
+                    <img src="/static/images/cover_image2.jpeg" alt="Cover Image">
+                </div>
+                <div class="slide">
+                    <img src="/static/images/cover_image3.jpeg" alt="Cover Image">
+                </div>
+            </div>
+            <div class="slider-text">
+                <div class="slider-heading">Safe Cycling</div>
+                <div class="slider-subheading">Bike Safely: Know Accident Risks Ahead</div>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid-item">
+                <img src="/static/images/image1.jpeg" alt="Image 1">
+                <p>Our Accident Statistics feature gives you necessary information about bicycle accidents in Melbourne. With an interactive map, you can easily spot high-risk areas and see how severe the accidents are in different regions. This helps you pick safer routes for yourself and your family. Stay updated with historical data statistics to make smarter and safer cycling choices for you and your loved ones.</p>
+                <button id="accidentStatisticsBtn" class="btn">Accident Statistics</button>
+            </div>
+            <div class="grid-item">
+                <img src="/static/images/image2.jpeg" alt="Image 2">
+                <p>Our Route Planner helps you find the safest and most efficient paths for your cycling journeys. Using historical accident statistics, the planner highlights routes with lower accident risks, allowing you to make informed decisions about your travel. Whether you are commuting to work, exploring new areas, or simply going for a leisurely ride, our Route Planner ensures you navigate with confidence and safety.</p>
+                <button id="routePlannerBtn" class="btn">Route Planner</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slidesWrapper = document.querySelector('.slide-wrapper');
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const heading = document.querySelector('.slider-heading');
+        const subheading = document.querySelector('.slider-subheading');
+
+        const slideTexts = [
+            { heading: "Safe Cycling", subheading: "Bike Safely: Know Accident Risks Ahead" },
+            { heading: "Heading 2", subheading: "Subheading for Slide 2" },
+            { heading: "Heading 3", subheading: "Subheading for Slide 3" }
+        ];
+
+        function updateText(index) {
+            heading.textContent = slideTexts[index].heading;
+            subheading.textContent = slideTexts[index].subheading;
+        }
+
+        function showSlide(index, direction = 'left') {
+            const offset = -index * 100; // Calculate the offset for sliding
+            slidesWrapper.style.transition = 'transform 1s ease-in-out'; // Add transition for smooth sliding
+
+            if (direction === 'left') {
+                slidesWrapper.style.transform = `translateX(${offset}%)`;
+            } else if (direction === 'right') {
+                slidesWrapper.style.transition = 'none'; // Temporarily disable transition
+                slidesWrapper.style.transform = `translateX(${(totalSlides) * -100}%)`;
+                setTimeout(() => {
+                    slidesWrapper.style.transition = 'transform 1s ease-in-out'; // Re-enable transition
+                    slidesWrapper.style.transform = `translateX(${offset}%)`;
+                }, 20);
+            }
+
+            updateText(index);
+        }
+
+        function nextSlide() {
+            if (currentSlide === totalSlides - 1) {
+                currentSlide = 0;
+                showSlide(currentSlide);
+            } else {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+        }
+
+        setInterval(nextSlide, 3000); // Change slide every 3 seconds
+
+        document.getElementById('routePlannerBtn').addEventListener('click', function() {
+            window.location.href = '/index';
+        });
+
+        document.getElementById('accidentStatisticsBtn').addEventListener('click', function() {
+            window.location.href = '/datapage';
+        });
+    </script>
+</body>
+</html>
