@@ -11,17 +11,21 @@ mapbox_token = 'pk.eyJ1Ijoic3V1cGVyaGVybyIsImEiOiJjbHo3NGIxbzMwMzM2MmpwdmVzeDc2c
 
 service = Directions()
 
+
 @application.route('/')
 def index():
     return send_from_directory('static', 'homepage.html')
+
 
 @application.route('/index')
 def route_planner():
     return send_from_directory('static', 'index.html')
 
+
 @application.route('/datapage')
 def accident_statistics():
     return send_from_directory('static', 'datapage.html')
+
 
 @application.route('/route', methods=['POST'])
 def get_route():
@@ -53,13 +57,14 @@ def get_route():
         print(f"Error: {response.status_code}")
         return jsonify({'error': 'Unable to fetch route'}), response.status_code
 
+
 @application.route('/accidents', methods=['GET'])
 def get_accidents():
     conn = psycopg2.connect(
-        dbname="victoria",
+        dbname="postgres",
         user="postgres",
         password="a7316713",
-        host="localhost"
+        host="database-2.c9e42ai486qt.ap-southeast-2.rds.amazonaws.com"
     )
     cur = conn.cursor()
     cur.execute("SELECT latitude, longitude, accident_date, severity FROM accidents")
@@ -81,5 +86,6 @@ def get_accidents():
     conn.close()
     return jsonify({"type": "FeatureCollection", "features": features})
 
+
 if __name__ == '__main__':
-    application.run(debug=True)
+    application.run(host="0.0.0.0" , debug=True)

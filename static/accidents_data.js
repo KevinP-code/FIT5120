@@ -3,10 +3,10 @@ import json
 
 def fetch_accident_data():
     conn = psycopg2.connect(
-        dbname="victoria",
+        dbname="postgres",
         user="postgres",
         password="a7316713",
-        host="localhost"
+        host="database-2.c9e42ai486qt.ap-southeast-2.rds.amazonaws.com"
     )
     cur = conn.cursor()
 
